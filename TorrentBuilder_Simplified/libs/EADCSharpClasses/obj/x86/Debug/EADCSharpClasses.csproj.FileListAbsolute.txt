@@ -1,0 +1,6 @@
+C:\Users\User\Desktop\TorrentBuild Project\bin\Debug\EADCSharpClasses.dll
+C:\Users\User\Desktop\TorrentBuild Project\bin\Debug\EADCSharpClasses.pdb
+C:\Users\User\Desktop\TorrentBuild Project\libs\EADCSharpClasses\obj\x86\Debug\EADCSharpClasses.csprojAssemblyReference.cache
+C:\Users\User\Desktop\TorrentBuild Project\libs\EADCSharpClasses\obj\x86\Debug\EADCSharpClasses.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\TorrentBuild Project\libs\EADCSharpClasses\obj\x86\Debug\EADCSharpClasses.dll
+C:\Users\User\Desktop\TorrentBuild Project\libs\EADCSharpClasses\obj\x86\Debug\EADCSharpClasses.pdb

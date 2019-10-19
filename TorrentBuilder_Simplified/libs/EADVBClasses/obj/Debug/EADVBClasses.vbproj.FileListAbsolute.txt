@@ -1,0 +1,9 @@
+C:\Users\User\Desktop\EAD-TorrentBuild-master\bin\Debug\EADVBClasses.dll
+C:\Users\User\Desktop\EAD-TorrentBuild-master\bin\Debug\EADVBClasses.pdb
+C:\Users\User\Desktop\EAD-TorrentBuild-master\libs\EADVBClasses\obj\Debug\EADVBClasses.dll
+C:\Users\User\Desktop\EAD-TorrentBuild-master\libs\EADVBClasses\obj\Debug\EADVBClasses.pdb
+C:\Users\User\Desktop\EAD-TorrentBuild-master\libs\EADVBClasses\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\User\Desktop\TorrentBuild Project\bin\Debug\EADVBClasses.dll
+C:\Users\User\Desktop\TorrentBuild Project\bin\Debug\EADVBClasses.pdb
+C:\Users\User\Desktop\TorrentBuild Project\libs\EADVBClasses\obj\Debug\EADVBClasses.dll
+C:\Users\User\Desktop\TorrentBuild Project\libs\EADVBClasses\obj\Debug\EADVBClasses.pdb

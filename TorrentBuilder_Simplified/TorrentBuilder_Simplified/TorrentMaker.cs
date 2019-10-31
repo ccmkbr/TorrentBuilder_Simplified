@@ -28,10 +28,9 @@ namespace TorrentBuilder_Simplified
         }
         private void MakeHash(string fullPath)
         {
-            long bytesRead = 0;
             ReadFileBuffer(fullPath);
 
-            parent.methodUpdateBar(bytesRead);
+            parent.methodUpdateBar(100);
         }
 
         private void ReadFileBuffer(string fullPath, bool isLastFile = true)
@@ -41,6 +40,7 @@ namespace TorrentBuilder_Simplified
             sha1_temp = sha1.ComputeHash(buffer);
             sha1_full.Append(Encoding.Default.GetString(sha1_temp));
 
+            parent.methodUpdateBar(buffer.Length);
             if (isLastFile)
             {
                 //Removes extra bytes allocated if the buffer size is smaller than piece size
@@ -50,8 +50,7 @@ namespace TorrentBuilder_Simplified
                 sha1_temp = sha1.ComputeHash(buffer);
                 sha1_full.Append(Encoding.Default.GetString(sha1_temp));
 
-                parent.methodUpdateBar(bufferPosition);
-
+                parent.methodUpdateBar(buffer.Length);
             }
         }
 
@@ -166,6 +165,8 @@ namespace TorrentBuilder_Simplified
                 {
                     MakeContinuousHash(pathArray[i], false);
                 }
+
+
             }
 
             torr_fileList.Value = fileArrayList;

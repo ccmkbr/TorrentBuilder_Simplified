@@ -28,94 +28,36 @@ namespace TorrentBuilder_Simplified
         }
         private void MakeHash(string fullPath)
         {
-            //Makes a hash from a file individually.
-            FileStream stream;
-            long toRead = (long)this.currentPieceSize;
-            long fileStreamPosition = 0;
-
-            FileInfo myFile = new FileInfo(fullPath);
-            long fileSize = myFile.Length;
-
             long bytesRead = 0;
+            ReadFileBuffer(fullPath);
 
-            using (stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+            parent.methodUpdateBar(bytesRead);
+        }
+
+        private void ReadFileBuffer(string fullPath, bool isLastFile = true)
+        {
+            buffer = File.ReadAllBytes(fullPath);
+
+            sha1_temp = sha1.ComputeHash(buffer);
+            sha1_full.Append(Encoding.Default.GetString(sha1_temp));
+
+            if (isLastFile)
             {
-                stream.Position = fileStreamPosition;
+                //Removes extra bytes allocated if the buffer size is smaller than piece size
+                //to avoid hashing wrong bytes.
+                Array.Resize(ref buffer, bufferPosition);
 
-                while (stream.Position < fileSize)
-                {
-                    if (fileSize - fileStreamPosition < toRead)
-                    {
-                        toRead = fileSize - (long)fileStreamPosition;
-                        Array.Resize(ref buffer, (int)toRead);
-                    }
-                    bytesRead = stream.Read(buffer, 0, (int)toRead);
-                    fileStreamPosition += toRead;
-                    stream.Position = fileStreamPosition;
-                    sha1_temp = sha1.ComputeHash(buffer);
-                    sha1_full.Append(Encoding.Default.GetString(sha1_temp));
+                sha1_temp = sha1.ComputeHash(buffer);
+                sha1_full.Append(Encoding.Default.GetString(sha1_temp));
 
-                    parent.methodUpdateBar(bytesRead);
+                parent.methodUpdateBar(bufferPosition);
 
-                }
             }
         }
 
         private void MakeContinuousHash(string fullPath, bool isLastFile)
         {
-            //Makes a hash from every file in the folder as if the bytes from all the files were concatenated.
-            FileStream stream;
-
-            long toRead;
-            long fileStreamPosition = 0;
-
-            FileInfo myFile = new FileInfo(fullPath);
-            long filesize = myFile.Length;
-
-            int bytesRead;
-
-            using (stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
-            {
-                stream.Position = fileStreamPosition;
-
-                while (stream.Position < filesize)
-                {
-                    //The number of bytes to be read, depends on the size available in the buffer and on the size remaining to be read in the file.
-                    //Chooses the smaller one.
-                    toRead = Math.Min(filesize - fileStreamPosition, this.currentPieceSize - bufferPosition);
-                    bytesRead = stream.Read(buffer, bufferPosition, (int)toRead);
-
-                    bufferPosition += bytesRead;
-                    fileStreamPosition += bytesRead;
-                    stream.Position = fileStreamPosition;
-
-                    //If the buffer has been completely filled, starts to hash and append.
-                    if (bufferPosition == currentPieceSize)
-                    {
-                        sha1_temp = sha1.ComputeHash(buffer);
-                        sha1_full.Append(Encoding.Default.GetString(sha1_temp));
-
-                        parent.methodUpdateBar(bytesRead);
-
-                        bufferPosition = 0;
-                    }
-                }
-
-                //If the current file is the last one and after it has been completely buffered, 
-                //hashes the content in buffer even if it's smaller than piece size.
-                if (isLastFile)
-                {
-                    //Removes extra bytes allocated if the buffer size is smaller than piece size
-                    //to avoid hashing wrong bytes.
-                    Array.Resize(ref buffer, bufferPosition);
-
-                    sha1_temp = sha1.ComputeHash(buffer);
-                    sha1_full.Append(Encoding.Default.GetString(sha1_temp));
-
-                    parent.methodUpdateBar(bufferPosition);
-
-                }
-            }
+            ReadFileBuffer(fullPath, isLastFile);
         }
 
         public void MakeTorrentFromFile(string fullPath)
